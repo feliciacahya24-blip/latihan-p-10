@@ -1,5 +1,3 @@
-// Katalog Karya — kode latihan Tugas P10, Praktikum Pemrograman Visual (TB033109)
-// Aplikasi ini terbuka, tetapi beberapa bagiannya bermasalah. Lacak dengan DevTools, lalu perbaiki.
 const galeri = document.querySelector('#galeri');
 const jumlah = document.querySelector('#jumlah');
 const detail = document.querySelector('#detail');
@@ -7,11 +5,11 @@ const cari = document.querySelector('#cari');
 const filterKategori = document.querySelector('#filterKategori');
 
 function saring() {
-  const kata = cari.value.trim();
+  const kata = cari.value.trim().toLowerCase();
   const kategori = filterKategori.value;
   return KARYA.filter((k) =>
     (kategori === 'semua' || k.kategori === kategori) &&
-    k.judul.includes(kata));
+    k.judul.toLowerCase().includes(kata));
 }
 
 function kartu(k) {
@@ -35,7 +33,8 @@ function kartu(k) {
 function tampil() {
   const hasil = saring();
   galeri.replaceChildren(...hasil.map(kartu));
-jumlah.textContent = `Menampilkan ${hasil.length} dari ${KARYA.length} karya`;
+  jumlah.textContent = `Menampilkan ${hasil.length} dari ${KARYA.length} karya`;
+  pasangDetail(); // pasang ulang listener Detail di setiap kartu baru
 }
 
 function pasangDetail() {
@@ -49,6 +48,5 @@ function pasangDetail() {
 }
 
 tampil();
-pasangDetail();
 cari.addEventListener('input', tampil);
 filterKategori.addEventListener('change', tampil);
